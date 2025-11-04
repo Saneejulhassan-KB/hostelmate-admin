@@ -1,0 +1,167 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    /* HostelMate Design System - Modern SaaS Admin */
+    
+    /* Primary Colors */
+    --primary: 217 91% 60%; /* Sky Blue #3B82F6 */
+    --primary-foreground: 0 0% 100%;
+    --primary-light: 217 91% 70%;
+    --primary-dark: 217 91% 50%;
+    
+    /* Secondary Colors */
+    --secondary: 222 47% 11%; /* Slate 900 #0F172A */
+    --secondary-foreground: 210 40% 98%;
+    
+    /* Accent Colors */
+    --accent: 160 84% 39%; /* Emerald #10B981 */
+    --accent-foreground: 0 0% 100%;
+    --accent-light: 160 84% 49%;
+    
+    /* Background Colors */
+    --background: 210 40% 98%; /* #F8FAFC */
+    --background-secondary: 0 0% 100%;
+    --foreground: 217 33% 17%; /* #1E293B */
+    
+    /* Surface & Cards */
+    --card: 0 0% 100%;
+    --card-foreground: 217 33% 17%;
+    
+    /* Borders */
+    --border: 214 32% 91%; /* #E2E8F0 */
+    --input: 214 32% 91%;
+    --ring: 217 91% 60%;
+    
+    /* Text Colors */
+    --text-primary: 217 33% 17%; /* #1E293B */
+    --text-secondary: 215 16% 47%; /* #64748B */
+    --muted: 214 32% 91%;
+    --muted-foreground: 215 16% 47%;
+    
+    /* Status Colors */
+    --success: 142 71% 45%; /* #22C55E */
+    --success-foreground: 0 0% 100%;
+    --warning: 38 92% 50%; /* #F59E0B */
+    --warning-foreground: 0 0% 100%;
+    --destructive: 0 72% 51%; /* #EF4444 */
+    --destructive-foreground: 0 0% 100%;
+    
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(217 91% 60%), hsl(271 91% 65%));
+    --gradient-accent: linear-gradient(135deg, hsl(160 84% 39%), hsl(174 84% 45%));
+    --gradient-subtle: linear-gradient(180deg, hsl(210 40% 98%), hsl(0 0% 100%));
+    
+    /* Shadows */
+    --shadow-sm: 0 1px 2px 0 hsl(217 33% 17% / 0.05);
+    --shadow-md: 0 4px 6px -1px hsl(217 33% 17% / 0.1);
+    --shadow-lg: 0 10px 15px -3px hsl(217 33% 17% / 0.1);
+    --shadow-xl: 0 20px 25px -5px hsl(217 33% 17% / 0.1);
+    --shadow-glow: 0 0 40px hsl(217 91% 60% / 0.3);
+    
+    /* Animations */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    
+    /* Sidebar */
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 217 33% 17%;
+    --sidebar-primary: 217 91% 60%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 210 40% 96%;
+    --sidebar-accent-foreground: 217 33% 17%;
+    --sidebar-border: 214 32% 91%;
+    --sidebar-ring: 217 91% 60%;
+    
+    /* Popovers */
+    --popover: 0 0% 100%;
+    --popover-foreground: 217 33% 17%;
+    
+    --radius: 1rem;
+  }
+
+  .dark {
+    --background: 222 47% 11%;
+    --background-secondary: 217 33% 17%;
+    --foreground: 210 40% 98%;
+    
+    --card: 217 33% 17%;
+    --card-foreground: 210 40% 98%;
+    
+    --primary: 217 91% 60%;
+    --primary-foreground: 0 0% 100%;
+    
+    --secondary: 217 33% 17%;
+    --secondary-foreground: 210 40% 98%;
+    
+    --accent: 160 84% 39%;
+    --accent-foreground: 0 0% 100%;
+    
+    --border: 217 33% 25%;
+    --input: 217 33% 25%;
+    --ring: 217 91% 60%;
+    
+    --muted: 217 33% 25%;
+    --muted-foreground: 215 20% 65%;
+    
+    --sidebar-background: 222 47% 11%;
+    --sidebar-foreground: 210 40% 98%;
+    --sidebar-primary: 217 91% 60%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 217 33% 17%;
+    --sidebar-accent-foreground: 210 40% 98%;
+    --sidebar-border: 217 33% 25%;
+    --sidebar-ring: 217 91% 60%;
+    
+    --popover: 217 33% 17%;
+    --popover-foreground: 210 40% 98%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-bold;
+  }
+}
+
+@layer utilities {
+  .gradient-primary {
+    background: linear-gradient(135deg, hsl(217 91% 60%), hsl(271 91% 65%));
+  }
+  
+  .gradient-accent {
+    background: linear-gradient(135deg, hsl(160 84% 39%), hsl(174 84% 45%));
+  }
+  
+  .hover-scale {
+    @apply transition-transform duration-200 hover:scale-105;
+  }
+  
+  .animate-fade-in {
+    animation: fadeIn 0.3s ease-out;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
