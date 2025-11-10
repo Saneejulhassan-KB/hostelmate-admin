@@ -11,6 +11,7 @@ import Login from "./pages/Auth/Login";
 import Register from "./pages/Auth/Register";
 import DashboardHome from "./pages/Dashboard/DashboardHome";
 import HostelsList from "./pages/Dashboard/HostelsList";
+import HostelDetailPage from "./pages/Dashboard/HostelDetailPage";
 import MessList from "./pages/Dashboard/MessList";
 import BookingsList from "./pages/Dashboard/BookingsList";
 import UsersList from "./pages/Dashboard/UsersList";
@@ -42,6 +43,7 @@ const App = () => (
             }>
               <Route index element={<DashboardHome />} />
               <Route path="hostels" element={<HostelsList />} />
+              <Route path="hostelDetail" element={<HostelDetailPage />} />
               <Route path="mess" element={<MessList />} />
               <Route path="bookings" element={<BookingsList />} />
               <Route path="users" element={<UsersList />} />

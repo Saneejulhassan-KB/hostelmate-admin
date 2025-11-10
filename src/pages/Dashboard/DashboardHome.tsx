@@ -25,7 +25,6 @@ import {
 } from "recharts";
 
 export default function DashboardHome() {
-
   // ===== Dummy Data =====
   const callTrendData = [
     { name: "Jan", calls: 15 },
