@@ -21,6 +21,7 @@ import PaymentPage from "./pages/Dashboard/PaymentPage";
 import PaymentSuccess from "./pages/Dashboard/PaymentSuccess";
 import ProfileSettings from "./pages/Dashboard/ProfileSettings";
 import NotFound from "./pages/NotFound";
+import AddHostelPage from "./pages/Dashboard/AddHostelPage";
 
 const queryClient = new QueryClient();
 
@@ -35,14 +36,19 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
-            
-            <Route path="/dashboard" element={
-              <PrivateRoute>
-                <DashboardLayout />
-              </PrivateRoute>
-            }>
+
+            <Route
+              path="/dashboard"
+              element={
+                <PrivateRoute>
+                  <DashboardLayout />
+                </PrivateRoute>
+              }
+            >
               <Route index element={<DashboardHome />} />
               <Route path="hostels" element={<HostelsList />} />
+              <Route path="add-hostel" element={<AddHostelPage />} />{" "}
+              {/* ✅ new route */}
               <Route path="hostelDetail" element={<HostelDetailPage />} />
               <Route path="mess" element={<MessList />} />
               <Route path="bookings" element={<BookingsList />} />
@@ -53,7 +59,7 @@ const App = () => (
               <Route path="payment-success" element={<PaymentSuccess />} />
               <Route path="settings" element={<ProfileSettings />} />
             </Route>
-            
+
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
