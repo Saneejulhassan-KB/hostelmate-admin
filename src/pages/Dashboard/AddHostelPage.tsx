@@ -78,15 +78,15 @@ export default function AddHostelPage() {
             <TabsContent value="basic" className="space-y-4">
               <div className="grid md:grid-cols-2 gap-4">
                 <Input placeholder="Hostel Name" />
-                <Input placeholder="Rating (e.g., 4.5)" />
-                <Input placeholder="Reviews Count" />
-                <Input placeholder="Contact Number" />
+                {/* <Input placeholder="Rating (e.g., 4.5)" />
+                <Input placeholder="Reviews Count" />q
+                <Input placeholder="Contact Number" /> */}
                 <Input placeholder="Email" />
                 <Input placeholder="Address" />
                 <Input placeholder="City" />
                 <Input placeholder="State" />
                 <Input placeholder="Pincode" />
-                <Input placeholder="Google Map Link (optional)" />
+                {/* <Input placeholder="Google Map Link (optional)" /> */}
               </div>
               <Textarea placeholder="Description" />
               <div className="grid md:grid-cols-3 gap-4">
