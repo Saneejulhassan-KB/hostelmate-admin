@@ -40,7 +40,7 @@ export const DashboardSidebar = ({ onClose }: { onClose?: () => void }) => {
   return (
     <aside
       className={cn(
-        "flex flex-col bg-card border-r border-border h-screen sticky top-0 transition-all duration-300",
+        "flex flex-col bg-card border-r border-border h-screen sticky top-0 transition-all duration-300 z-40",
         collapsed ? "w-20" : "w-64"
       )}
     >

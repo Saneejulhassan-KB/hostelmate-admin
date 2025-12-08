@@ -21,7 +21,8 @@ import PaymentPage from "./pages/Dashboard/PaymentPage";
 import PaymentSuccess from "./pages/Dashboard/PaymentSuccess";
 import ProfileSettings from "./pages/Dashboard/ProfileSettings";
 import NotFound from "./pages/NotFound";
-import AddHostelPage from "./pages/Dashboard/AddHostelPage";
+
+
 
 const queryClient = new QueryClient();
 
@@ -47,8 +48,7 @@ const App = () => (
             >
               <Route index element={<DashboardHome />} />
               <Route path="hostels" element={<HostelsList />} />
-              <Route path="add-hostel" element={<AddHostelPage />} />{" "}
-              {/* ✅ new route */}
+              
               <Route path="hostelDetail" element={<HostelDetailPage />} />
               <Route path="mess" element={<MessList />} />
               <Route path="bookings" element={<BookingsList />} />
