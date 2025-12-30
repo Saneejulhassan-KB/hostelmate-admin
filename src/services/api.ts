@@ -32,12 +32,30 @@ export interface Hostel {
   availability_summary: string;
   description: string;
   hostel_type: string;
-  facilities: { id: string; name: string }[];
-  mess_menus: {
-    id: string;
+  hostel_facilities: {
+    id: number;
+    facility: {
+      id: number;
+      name: string;
+      slug: string;
+    };
+    facility_name: string;
+  }[];
+  mess_menu: {
+    id: number;
     day: string;
-    veg_menu: { breakfast: string; lunch: string; dinner: string };
-    nonveg_menu: { breakfast: string; lunch: string; dinner: string };
+    veg_breakfast: string;
+    veg_breakfast_accompaniment: string;
+    veg_lunch: string;
+    veg_lunch_accompaniment: string;
+    veg_dinner: string;
+    veg_dinner_accompaniment: string;
+    nonveg_breakfast: string;
+    nonveg_breakfast_accompaniment: string;
+    nonveg_lunch: string;
+    nonveg_lunch_accompaniment: string;
+    nonveg_dinner: string;
+    nonveg_dinner_accompaniment: string;
   }[];
   rooms: {
     id: string;
@@ -48,7 +66,14 @@ export interface Hostel {
     description: string;
     monthly_price: number;
     daily_price: number;
-    facilities: { id: string; name: string }[];
+    room_facilities: {
+      id: number;
+      facility: {
+        id: number;
+        name: string;
+        slug: string;
+      };
+    }[];
     capacity: number;
   }[];
   rules: {
@@ -65,8 +90,61 @@ export interface Hostel {
 }
 
 export const hostelService = {
+
+  createHostel: async (formData: FormData) => {
+    const response = await api.post(
+      "/hostels/api/v1/hostels/",
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+    return response.data;
+  },
+
   getHostels: async (page: number = 1) => {
-    const response = await api.get(`/users/hostels/?page=${page}`);
+    const response = await api.get(`/hostels/hostels/?page=${page}`);
+    return response.data;
+  },
+
+  deleteHostel: async (id: string) => {
+    const response = await api.delete(`/hostels/hostels/${id}/`);
+    return response.data;
+  },
+
+  getHostelById: async (id: string) => {
+    const response = await api.get(`/hostels/hostels/${id}/`);
+    return response.data;
+  },
+
+  updateHostelImage: async (hostelId: string, imageId: string, formData: FormData) => {
+    const response = await api.patch(
+      `/hostels/api/v1/hostels/${hostelId}/images/${imageId}/`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+    return response.data;
+  },
+
+  deleteHostelImage: async (hostelId: string, imageId: string) => {
+    const response = await api.delete(`/hostels/api/v1/hostels/${hostelId}/images/${imageId}/`);
+    return response.data;
+  },
+
+};
+
+export const facilityService = {
+
+  getFacilities: async () => {
+    const response = await api.get(
+      '/hostels/api/v1/facilities/'
+    );
     return response.data;
   },
 };

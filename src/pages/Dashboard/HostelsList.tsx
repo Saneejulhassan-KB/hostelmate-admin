@@ -75,6 +75,31 @@ export default function HostelsDashboard() {
     setCurrentIndex((prev) => (prev === 0 ? hostels.length - 1 : prev - 1));
   };
 
+  const handleDelete = async () => {
+    if (!currentHostel) return;
+    
+    if (window.confirm("Are you sure you want to delete this hostel?")) {
+      try {
+        await hostelService.deleteHostel(currentHostel.id);
+        toast.success("Hostel deleted successfully");
+        
+        // Remove from local state
+        const updatedHostels = hostels.filter(h => h.id !== currentHostel.id);
+        setHostels(updatedHostels);
+        
+        // Adjust index if needed
+        if (updatedHostels.length === 0) {
+          setCurrentIndex(0);
+        } else if (currentIndex >= updatedHostels.length) {
+          setCurrentIndex(updatedHostels.length - 1);
+        }
+      } catch (error) {
+        console.error("Failed to delete hostel:", error);
+        toast.error("Failed to delete hostel");
+      }
+    }
+  };
+
   if (loading && hostels.length === 0) {
     return (
       <div className="flex items-center justify-center min-h-[50vh]">
@@ -112,6 +137,7 @@ export default function HostelsDashboard() {
             size="sm"
             variant="outline"
             className="border-primary text-primary hover:bg-primary hover:text-white transition-all flex-shrink-0"
+            onClick={() => currentHostel && navigate(`/dashboard/edit-hostel/${currentHostel.id}`)}
           >
             <Pencil className="mr-1 h-4 w-4" /> Edit
           </Button>
@@ -120,6 +146,7 @@ export default function HostelsDashboard() {
             size="sm"
             variant="destructive"
             className="bg-red-600 hover:bg-red-700 text-white shadow-sm flex-shrink-0"
+            onClick={handleDelete}
           >
             <Trash2 className="mr-1 h-4 w-4" /> Delete
           </Button>
@@ -185,9 +212,9 @@ export default function HostelsDashboard() {
                       <Badge variant="secondary" className="capitalize">
                         Type: {currentHostel.hostel_type}
                       </Badge>
-                      {currentHostel.facilities?.map((f) => (
+                      {currentHostel.hostel_facilities?.map((f) => (
                         <Badge key={f.id} className="capitalize bg-muted">
-                          {f.name}
+                          {f.facility_name}
                         </Badge>
                       ))}
                     </div>
@@ -213,9 +240,9 @@ export default function HostelsDashboard() {
 
                   {/* MESS MENU */}
                   <TabsContent value="mess" className="pt-4">
-                    {currentHostel.mess_menus && currentHostel.mess_menus.length > 0 ? (
+                    {currentHostel.mess_menu && currentHostel.mess_menu.length > 0 ? (
                       <div className="grid gap-4">
-                        {currentHostel.mess_menus.map((menu) => (
+                        {currentHostel.mess_menu.map((menu) => (
                           <Card key={menu.id} className="border p-4">
                             <h3 className="font-semibold mb-2 text-lg">{menu.day}</h3>
                             <div className="grid md:grid-cols-2 gap-4 text-sm">
@@ -224,9 +251,9 @@ export default function HostelsDashboard() {
                                   Veg Menu
                                 </h4>
                                 <div className="space-y-1">
-                                  <p><strong>Breakfast:</strong> {menu.veg_menu.breakfast}</p>
-                                  <p><strong>Lunch:</strong> {menu.veg_menu.lunch}</p>
-                                  <p><strong>Dinner:</strong> {menu.veg_menu.dinner}</p>
+                                  <p><strong>Breakfast:</strong> {menu.veg_breakfast} {menu.veg_breakfast_accompaniment && `(${menu.veg_breakfast_accompaniment})`}</p>
+                                  <p><strong>Lunch:</strong> {menu.veg_lunch} {menu.veg_lunch_accompaniment && `(${menu.veg_lunch_accompaniment})`}</p>
+                                  <p><strong>Dinner:</strong> {menu.veg_dinner} {menu.veg_dinner_accompaniment && `(${menu.veg_dinner_accompaniment})`}</p>
                                 </div>
                               </div>
                               <div className="bg-orange-50/50 p-3 rounded-lg border border-orange-100">
@@ -234,9 +261,9 @@ export default function HostelsDashboard() {
                                   Non-Veg Menu
                                 </h4>
                                 <div className="space-y-1">
-                                  <p><strong>Breakfast:</strong> {menu.nonveg_menu.breakfast}</p>
-                                  <p><strong>Lunch:</strong> {menu.nonveg_menu.lunch}</p>
-                                  <p><strong>Dinner:</strong> {menu.nonveg_menu.dinner}</p>
+                                  <p><strong>Breakfast:</strong> {menu.nonveg_breakfast || "N/A"} {menu.nonveg_breakfast_accompaniment && `(${menu.nonveg_breakfast_accompaniment})`}</p>
+                                  <p><strong>Lunch:</strong> {menu.nonveg_lunch || "N/A"} {menu.nonveg_lunch_accompaniment && `(${menu.nonveg_lunch_accompaniment})`}</p>
+                                  <p><strong>Dinner:</strong> {menu.nonveg_dinner || "N/A"} {menu.nonveg_dinner_accompaniment && `(${menu.nonveg_dinner_accompaniment})`}</p>
                                 </div>
                               </div>
                             </div>
@@ -300,10 +327,10 @@ export default function HostelsDashboard() {
                               <div className="text-sm">
                                 <p className="mb-1 text-xs font-medium text-muted-foreground">Facilities:</p>
                                 <div className="flex flex-wrap gap-1">
-                                  {room.facilities && room.facilities.length > 0 ? (
-                                    room.facilities.map(fac => (
+                                  {room.room_facilities && room.room_facilities.length > 0 ? (
+                                    room.room_facilities.map(fac => (
                                       <span key={fac.id} className="text-[10px] bg-muted px-1.5 py-0.5 rounded border">
-                                        {fac.name}
+                                        {fac.facility.name}
                                       </span>
                                     ))
                                   ) : (

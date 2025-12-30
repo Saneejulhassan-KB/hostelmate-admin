@@ -1,25 +1,83 @@
-import { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Badge } from '@/components/ui/badge';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Search, Filter, Eye, Check, X } from 'lucide-react';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { toast } from 'sonner';
+import { useState } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Search, Filter, Eye, Check, X } from "lucide-react";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { toast } from "sonner";
 
 const mockBookings = [
-  { id: 'BK001', userName: 'Rahul Sharma', property: 'Sunrise Hostel', type: 'hostel', checkIn: '2025-01-15', checkOut: '2025-02-15', amount: '₹12,000', status: 'confirmed' },
-  { id: 'BK002', userName: 'Priya Patel', property: 'Green Valley Mess', type: 'mess', checkIn: '2025-01-10', checkOut: '2025-02-10', amount: '₹8,500', status: 'pending' },
-  { id: 'BK003', userName: 'Amit Kumar', property: 'City Center PG', type: 'hostel', checkIn: '2025-01-20', checkOut: '2025-03-20', amount: '₹24,000', status: 'confirmed' },
-  { id: 'BK004', userName: 'Sneha Singh', property: 'Campus Mess', type: 'mess', checkIn: '2025-01-05', checkOut: '2025-02-05', amount: '₹7,200', status: 'cancelled' },
-  { id: 'BK005', userName: 'Vikram Reddy', property: 'Metro Hostel', type: 'hostel', checkIn: '2025-01-25', checkOut: '2025-04-25', amount: '₹36,000', status: 'confirmed' },
+  {
+    id: "BK001",
+    userName: "Rahul Sharma",
+    property: "Sunrise Hostel",
+    type: "hostel",
+    checkIn: "2025-01-15",
+    checkOut: "2025-02-15",
+    amount: "₹12,000",
+    status: "confirmed",
+  },
+  {
+    id: "BK002",
+    userName: "Priya Patel",
+    property: "Green Valley Mess",
+    type: "mess",
+    checkIn: "2025-01-10",
+    checkOut: "2025-02-10",
+    amount: "₹8,500",
+    status: "pending",
+  },
+  {
+    id: "BK003",
+    userName: "Amit Kumar",
+    property: "City Center PG",
+    type: "hostel",
+    checkIn: "2025-01-20",
+    checkOut: "2025-03-20",
+    amount: "₹24,000",
+    status: "confirmed",
+  },
+  {
+    id: "BK004",
+    userName: "Sneha Singh",
+    property: "Campus Mess",
+    type: "mess",
+    checkIn: "2025-01-05",
+    checkOut: "2025-02-05",
+    amount: "₹7,200",
+    status: "cancelled",
+  },
+  {
+    id: "BK005",
+    userName: "Vikram Reddy",
+    property: "Metro Hostel",
+    type: "hostel",
+    checkIn: "2025-01-25",
+    checkOut: "2025-04-25",
+    amount: "₹36,000",
+    status: "confirmed",
+  },
 ];
 
 export default function BookingsList() {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [statusFilter, setStatusFilter] = useState('all');
-  const [typeFilter, setTypeFilter] = useState('all');
+  const [searchQuery, setSearchQuery] = useState("");
+  const [statusFilter, setStatusFilter] = useState("all");
+  const [typeFilter, setTypeFilter] = useState("all");
 
   const handleApprove = (id: string) => {
     toast.success(`Booking ${id} approved successfully`);
@@ -31,19 +89,25 @@ export default function BookingsList() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'confirmed': return 'bg-success text-success-foreground';
-      case 'pending': return 'bg-warning text-warning-foreground';
-      case 'cancelled': return 'bg-destructive text-destructive-foreground';
-      default: return 'bg-muted';
+      case "confirmed":
+        return "bg-success text-success-foreground";
+      case "pending":
+        return "bg-warning text-warning-foreground";
+      case "cancelled":
+        return "bg-destructive text-destructive-foreground";
+      default:
+        return "bg-muted";
     }
   };
 
-  const filteredBookings = mockBookings.filter(booking => {
-    const matchesSearch = booking.userName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         booking.property.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         booking.id.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesStatus = statusFilter === 'all' || booking.status === statusFilter;
-    const matchesType = typeFilter === 'all' || booking.type === typeFilter;
+  const filteredBookings = mockBookings.filter((booking) => {
+    const matchesSearch =
+      booking.userName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      booking.property.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      booking.id.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesStatus =
+      statusFilter === "all" || booking.status === statusFilter;
+    const matchesType = typeFilter === "all" || booking.type === typeFilter;
     return matchesSearch && matchesStatus && matchesType;
   });
 
@@ -52,7 +116,9 @@ export default function BookingsList() {
       {/* Header */}
       <div>
         <h1 className="text-3xl font-bold mb-2">Bookings Management</h1>
-        <p className="text-muted-foreground">Track and manage all hostel and mess bookings</p>
+        <p className="text-muted-foreground">
+          Track and manage all hostel and mess bookings
+        </p>
       </div>
 
       {/* Filters */}
@@ -127,7 +193,9 @@ export default function BookingsList() {
                     </TableCell>
                     <TableCell>{booking.checkIn}</TableCell>
                     <TableCell>{booking.checkOut}</TableCell>
-                    <TableCell className="font-semibold">{booking.amount}</TableCell>
+                    <TableCell className="font-semibold">
+                      {booking.amount}
+                    </TableCell>
                     <TableCell>
                       <Badge className={getStatusColor(booking.status)}>
                         {booking.status}
@@ -138,18 +206,18 @@ export default function BookingsList() {
                         <Button variant="ghost" size="sm">
                           <Eye className="h-4 w-4" />
                         </Button>
-                        {booking.status === 'pending' && (
+                        {booking.status === "pending" && (
                           <>
-                            <Button 
-                              variant="ghost" 
+                            <Button
+                              variant="ghost"
                               size="sm"
                               onClick={() => handleApprove(booking.id)}
                               className="text-success hover:text-success"
                             >
                               <Check className="h-4 w-4" />
                             </Button>
-                            <Button 
-                              variant="ghost" 
+                            <Button
+                              variant="ghost"
                               size="sm"
                               onClick={() => handleReject(booking.id)}
                               className="text-destructive hover:text-destructive"

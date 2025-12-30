@@ -11,6 +11,7 @@ import Login from "./pages/Auth/Login";
 import Register from "./pages/Auth/Register";
 import DashboardHome from "./pages/Dashboard/DashboardHome";
 import HostelsList from "./pages/Dashboard/HostelsList";
+import AddHostelPage from "./pages/Dashboard/AddHostelPage";
 import HostelDetailPage from "./pages/Dashboard/HostelDetailPage";
 import MessList from "./pages/Dashboard/MessList";
 import BookingsList from "./pages/Dashboard/BookingsList";
@@ -48,6 +49,8 @@ const App = () => (
             >
               <Route index element={<DashboardHome />} />
               <Route path="hostels" element={<HostelsList />} />
+              <Route path="add-hostel" element={<AddHostelPage />} />
+              <Route path="edit-hostel/:id" element={<AddHostelPage />} />
               
               <Route path="hostelDetail" element={<HostelDetailPage />} />
               <Route path="mess" element={<MessList />} />
