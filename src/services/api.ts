@@ -91,9 +91,30 @@ export interface Hostel {
 
 export const hostelService = {
 
-  createHostel: async (formData: FormData) => {
+  createHostel: async (payload: {
+    name: string;
+    description?: string;
+    hostel_type: string;
+    address: string;
+    city: string;
+    state: string;
+    pincode: string;
+    latitude?: number;
+    longitude?: number;
+    hostel_facilities: { facility_id: number }[];
+    rules: { title: string; description: string }[];
+  }) => {
     const response = await api.post(
-      "/hostels/api/v1/hostels/",
+      "/hostels/hostels/",
+      payload
+    );
+    return response.data;
+  },
+
+
+  uploadHostelImage: async (hostelId: string, formData: FormData) => {
+    const response = await api.post(
+      `/hostels/hostels/`, // <- Correct endpoint
       formData,
       {
         headers: {
@@ -103,6 +124,7 @@ export const hostelService = {
     );
     return response.data;
   },
+
 
   getHostels: async (page: number = 1) => {
     const response = await api.get(`/hostels/hostels/?page=${page}`);
@@ -143,7 +165,7 @@ export const facilityService = {
 
   getFacilities: async () => {
     const response = await api.get(
-      '/hostels/api/v1/facilities/'
+      '/rooms/facilities/'
     );
     return response.data;
   },

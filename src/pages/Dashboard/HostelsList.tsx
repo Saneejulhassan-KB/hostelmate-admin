@@ -214,7 +214,7 @@ export default function HostelsDashboard() {
                       </Badge>
                       {currentHostel.hostel_facilities?.map((f) => (
                         <Badge key={f.id} className="capitalize bg-muted">
-                          {f.facility_name}
+                          {f.facility.name}
                         </Badge>
                       ))}
                     </div>
