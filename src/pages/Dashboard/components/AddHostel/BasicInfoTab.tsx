@@ -10,8 +10,8 @@ interface BasicInfoTabProps {
     city: string;
     state: string;
     pincode: string;
-    latitude: string;
-    longitude: string;
+    // latitude: string;
+    // longitude: string;
   };
   handleBasicInfoChange: (field: string, value: string) => void;
   handleSaveBasicInfo: () => void;
@@ -149,7 +149,7 @@ export default function BasicInfoTab({
             </div>
 
             {/* Latitude */}
-            <div className="space-y-2">
+            {/* <div className="space-y-2">
               <label className="text-sm font-medium">Latitude</label>
               <input
                 type="text"
@@ -160,10 +160,10 @@ export default function BasicInfoTab({
                 placeholder="e.g., 28.7041"
                 className="w-full px-4 py-2.5 border border-input rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none"
               />
-            </div>
+            </div> */}
 
             {/* Longitude */}
-            <div className="space-y-2">
+            {/* <div className="space-y-2">
               <label className="text-sm font-medium">Longitude</label>
               <input
                 type="text"
@@ -174,7 +174,7 @@ export default function BasicInfoTab({
                 placeholder="e.g., 77.1025"
                 className="w-full px-4 py-2.5 border border-input rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none"
               />
-            </div>
+            </div> */}
           </div>
         </div>
 

@@ -12,8 +12,10 @@ import Register from "./pages/Auth/Register";
 import DashboardHome from "./pages/Dashboard/DashboardHome";
 import HostelsList from "./pages/Dashboard/HostelsList";
 import AddHostelPage from "./pages/Dashboard/AddHostelPage";
+import EditHostelPage from "./pages/Dashboard/EditHostelPage";
 import HostelDetailPage from "./pages/Dashboard/HostelDetailPage";
 import MessList from "./pages/Dashboard/MessList";
+import AddMessPage from "./pages/Dashboard/AddMessPage";
 import BookingsList from "./pages/Dashboard/BookingsList";
 import UsersList from "./pages/Dashboard/UsersList";
 import ReportsDashboard from "./pages/Dashboard/ReportsDashboard";
@@ -50,10 +52,11 @@ const App = () => (
               <Route index element={<DashboardHome />} />
               <Route path="hostels" element={<HostelsList />} />
               <Route path="add-hostel" element={<AddHostelPage />} />
-              <Route path="edit-hostel/:id" element={<AddHostelPage />} />
+              <Route path="edit-hostel/:id" element={<EditHostelPage />} />
               
               <Route path="hostelDetail" element={<HostelDetailPage />} />
               <Route path="mess" element={<MessList />} />
+              <Route path="add-mess" element={<AddMessPage />} />
               <Route path="bookings" element={<BookingsList />} />
               <Route path="users" element={<UsersList />} />
               <Route path="reports" element={<ReportsDashboard />} />
