@@ -11,6 +11,7 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 
 interface Room {
+  id?: string;
   roomNumber: string;
   roomType: string;
   capacity: string;
@@ -20,10 +21,13 @@ interface Room {
   isAvailable: boolean;
   facilities: number[];
   images: {
+    id?: string;
     file: File | null;
     caption: string;
     preview: string;
   }[];
+  deletedImages?: string[];
+  deletedFacilities?: number[];
 }
 
 interface RoomsTabProps {
@@ -294,6 +298,10 @@ export default function RoomsTab({
                                           facilities: r.facilities.filter(
                                             (id) => id !== facilityId
                                           ),
+                                          deletedFacilities: [
+                                            ...(r.deletedFacilities || []),
+                                            facilityId,
+                                          ],
                                         }
                                       : r
                                   )
@@ -338,9 +346,24 @@ export default function RoomsTab({
                             <Button
                               size="icon"
                               variant="ghost"
-                              onClick={() =>
-                                handleRemoveRoomImage(index, imgIndex)
-                              }
+                              onClick={() => {
+                                handleRemoveRoomImage(index, imgIndex);
+                                if (img.id) {
+                                  setRooms((prev) =>
+                                    prev.map((r, i) =>
+                                      i === index
+                                        ? {
+                                            ...r,
+                                            deletedImages: [
+                                              ...(r.deletedImages || []),
+                                              img.id!,
+                                            ],
+                                          }
+                                        : r
+                                    )
+                                  );
+                                }
+                              }}
                               className="h-7 w-7 text-red-600"
                             >
                               <Trash2 className="h-4 w-4" />

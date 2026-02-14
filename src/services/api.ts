@@ -332,8 +332,8 @@ export const hostelService = {
       monthly_price: number;
       description?: string;
       is_available: boolean;
-      facility_ids: number[];
-      uploaded_images: File[];
+      facility: number[];
+      images: File[];
     }
   ) => {
     const formData = new FormData();
@@ -347,15 +347,15 @@ export const hostelService = {
     formData.append("description", payload.description || "");
     formData.append("is_available", String(payload.is_available));
 
-    // Facilities (multiple values, same key 'facility_ids')
-    payload.facility_ids.forEach((id) => {
-      formData.append("facility_ids", id.toString());
+    // Facilities (multiple values, same key 'facility')
+    payload.facility.forEach((id) => {
+      formData.append("facility", id.toString());
     });
 
-    // Images (multiple values, same key 'uploaded_images')
-    if (payload.uploaded_images) {
-      payload.uploaded_images.forEach((file) => {
-        formData.append("uploaded_images", file);
+    // Images (multiple values, same key 'images')
+    if (payload.images) {
+      payload.images.forEach((file) => {
+        formData.append("images", file);
       });
     }
 
@@ -368,6 +368,68 @@ export const hostelService = {
     return response.data;
   },
 
+  updateRoom: async (
+    roomId: string,
+    hostelId: string,
+    payload: {
+      room_number: string;
+      room_type: string;
+      capacity: number;
+      daily_price: number;
+      monthly_price: number;
+      description?: string;
+      is_available: boolean;
+      facility: number[];
+      images: File[];
+      deleted_images: number[];
+      deleted_facilities: number[];
+    }
+  ) => {
+    const formData = new FormData();
+
+    formData.append("hostel", hostelId);
+    formData.append("room_number", payload.room_number);
+    formData.append("room_type", payload.room_type);
+    formData.append("capacity", payload.capacity.toString());
+    formData.append("daily_price", payload.daily_price.toString());
+    formData.append("monthly_price", payload.monthly_price.toString());
+    formData.append("description", payload.description || "");
+    formData.append("is_available", String(payload.is_available));
+
+    // Facilities (multiple values, same key 'facility')
+    payload.facility.forEach((id) => {
+      formData.append("facility", id.toString());
+    });
+
+    // Images (multiple values, same key 'images')
+    if (payload.images && payload.images.length > 0) {
+      payload.images.forEach((file) => {
+        formData.append("images", file);
+      });
+    }
+
+    // Deleted images (repeated key 'deleted_images')
+    if (payload.deleted_images && payload.deleted_images.length > 0) {
+      payload.deleted_images.forEach((id) => {
+        formData.append("deleted_images", id.toString());
+      });
+    }
+
+    // Deleted facilities (repeated key 'deleted_facilities')
+    if (payload.deleted_facilities && payload.deleted_facilities.length > 0) {
+      payload.deleted_facilities.forEach((id) => {
+        formData.append("deleted_facilities", id.toString());
+      });
+    }
+
+    const response = await api.patch(`/rooms/rooms/${roomId}/`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+
+    return response.data;
+  },
 
   getHostels: async (page: number = 1) => {
     const response = await api.get(`/hostels/hostels/?page=${page}`);

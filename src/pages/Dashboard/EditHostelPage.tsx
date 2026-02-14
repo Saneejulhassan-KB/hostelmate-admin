@@ -116,6 +116,7 @@ export default function EditHostelPage() {
           if (data.rooms) {
             setRooms(
               data.rooms.map((room: any) => ({
+                id: room.id,
                 roomNumber: room.room_number,
                 roomType: room.room_type,
                 capacity: room.capacity?.toString() || "",
@@ -123,16 +124,19 @@ export default function EditHostelPage() {
                 dailyPrice: room.daily_price?.toString() || "",
                 description: room.description,
                 isAvailable: room.is_available,
-                facilities: room.facilities
-                  ? room.facilities.map((f: any) => Number(f.id))
+                facilities: room.room_facilities
+                  ? room.room_facilities.map((f: any) => Number(f.facility.id))
                   : [],
                 images: room.images
                   ? room.images.map((img: any) => ({
+                      id: img.id,
                       file: null,
                       caption: "",
                       preview: img.image,
                     }))
                   : [],
+                deletedImages: [],
+                deletedFacilities: [],
               }))
             );
           }
@@ -178,23 +182,27 @@ export default function EditHostelPage() {
   >([]);
 
   // Rooms State
-  const [rooms, setRooms] = useState<
-    {
-      roomNumber: string;
-      roomType: string;
-      capacity: string;
-      monthlyPrice: string;
-      dailyPrice: string;
-      description: string;
-      isAvailable: boolean;
-      facilities: number[];
-      images: {
-        file: File | null;
-        caption: string;
-        preview: string;
-      }[];
-    }[]
-  >([]);
+  interface Room {
+    id?: string;
+    roomNumber: string;
+    roomType: string;
+    capacity: string;
+    monthlyPrice: string;
+    dailyPrice: string;
+    description: string;
+    isAvailable: boolean;
+    facilities: number[];
+    images: {
+      id?: string;
+      file: File | null;
+      caption: string;
+      preview: string;
+    }[];
+    deletedImages?: string[];
+    deletedFacilities?: number[];
+  }
+
+  const [rooms, setRooms] = useState<Room[]>([]);
 
   // Mess Menu State
   const [messMenus, setMessMenus] = useState<
@@ -506,7 +514,50 @@ export default function EditHostelPage() {
         })),
       });
 
-      toast.success("Hostel updated successfully!"); // Changed text for Edit page
+      // 2. Create or Update Rooms
+      if (rooms.length > 0) {
+        try {
+          console.log("Starting to process rooms...", rooms.length);
+          const roomPromises = rooms.map((room) => {
+            const payload = {
+              room_number: room.roomNumber,
+              room_type: room.roomType,
+              capacity: Number(room.capacity),
+              daily_price: Number(room.dailyPrice),
+              monthly_price: Number(room.monthlyPrice),
+              description: room.description,
+              is_available: room.isAvailable,
+              facility: room.facilities,
+              images: room.images
+                .filter((img) => img.file)
+                .map((img) => img.file!),
+              deleted_images: (room.deletedImages || []).map((id) => Number(id)),
+              deleted_facilities: room.deletedFacilities || [],
+            };
+
+            if (room.id) {
+              // Update existing room
+              console.log("Updating room with ID:", room.id, payload);
+              return hostelService.updateRoom(room.id, id!, payload);
+            } else {
+              // Create new room
+              console.log("Creating new room for hostel:", id, payload);
+              return hostelService.createRoom(id!, payload);
+            }
+          });
+
+          await Promise.all(roomPromises);
+          console.log("All rooms processed successfully");
+          toast.success("Rooms updated successfully!");
+        } catch (roomError) {
+          console.error("Error processing rooms:", roomError);
+          toast.error(
+            "Hostel updated, but some rooms failed to save. Please check."
+          );
+        }
+      }
+      
+      toast.success("Hostel updated successfully!");
       navigate("/dashboard/hostels");
     } catch (error: any) {
       console.error(error);

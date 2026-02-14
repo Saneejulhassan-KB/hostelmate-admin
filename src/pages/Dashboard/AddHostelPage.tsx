@@ -89,10 +89,14 @@ export default function AddHostelPage() {
       isAvailable: boolean;
       facilities: number[];
       images: {
+        id?: string;
         file: File | null;
         caption: string;
         preview: string;
       }[];
+      id?: string;
+      deletedImages?: string[];
+      deletedFacilities?: number[];
     }[]
   >([]);
 
@@ -422,8 +426,8 @@ export default function AddHostelPage() {
               monthly_price: Number(room.monthlyPrice),
               description: room.description,
               is_available: room.isAvailable,
-              facility_ids: room.facilities,
-              uploaded_images: room.images
+              facility: room.facilities,
+              images: room.images
                 .filter((img) => img.file)
                 .map((img) => img.file!),
             });
